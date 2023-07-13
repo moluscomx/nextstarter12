@@ -5,6 +5,7 @@ import clientPromise from "@/lib/mongodb";
 import { dateNowUnix } from "@/utils/dates";
 import nodemailer from "nodemailer";
 import html from "@/emailtemplates/verify-email";
+import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   secret: process.env.BASE_SECRET,
@@ -82,6 +83,11 @@ export default NextAuth({
         const transport = nodemailer.createTransport(server);
         sendVerificationEmail(transport, email, from, url, host);
       },
+    }),
+    // ...add more providers here
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
 
     // ...add more providers here
